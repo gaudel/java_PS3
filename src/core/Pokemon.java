@@ -37,7 +37,7 @@ public class Pokemon {
 	
 	public void eatSweet(Sweet s){
 		if(s.isAlreadyEaten()){
-			System.out.println("Avertissement : bonbon dÈj‡ mangÈ");
+			System.out.println("Avertissement : bonbon d√©j√† mang√©");
 		}else{
 			receiveXP(s.getXp());
 			s.setAlreadyEaten(true);
