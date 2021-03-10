@@ -1,9 +1,15 @@
-# TP2: OOP like a boss
+# PS3: Java++
 > After [Samuel toubon](http://wikisamuel.github.io/java/#/)'s modification of [Olivier Levitt](https://formations.levitt.fr/poo-java/#/)'s job.
 
 * Use of advanced OOP concepts
-* New various features for the application 
-* Creation and comparison of simple AIs
+* Enums
+* Containers
+* Exceptions
+* Creation and comparison of simple Artifical Intelligences (AI)
+
+This is not a brand new practical work. The main goal is to stabilize your Java knowledge.
+
+Some leftovers from practical work 2 are back. Let's code some AI !
 
 
 ## WARNING
@@ -12,77 +18,74 @@ This is the version for students working online on [repl.it](https://www.repl.it
 
 ## Starting point
 
-* For this practical work, we will start from where we ended last week
-* You can either use your code from last week or start a new [repl.it](https://www.repl.it) project from [github.com/gaudel/java_PS2](https://github.com/gaudel/java_PS2) GitHub's repository.
+* For this session we will start from our previous works. 
+* Start a new [repl.it](https://www.repl.it)'s project from  [https://github.com/gaudel/java_PS3](https://github.com/gaudel/java_PS3) GitHub's repository
+* Eclipse can import the project using `File => Import => General => Existing projects into Workspace` feature
 * Take some time to make sure you understand the code and what it is doing. Feel obviously free to ask questions about it
 
 
+## 1. Species enumeration
+At this point, species are created at runtime within the `main()` function.  
+Supposing species are immutable and that no new species can be created, the code would be a lot more readable and simple if we created them once and for all
 
-## 1. Cleanup
-
-* During practical session 1, all attributes where defined as `public`. What issues do you think this choice may lead to ?
-
-Using as much IDE's power as we can,
-<br />we are going to refactor the code to respect encapsulation,
-<br />i.e. for all classes:
-
-* Make the relevant attributes `private`
-* Write getters and setters
-* Define useful constructors (if needed)
-* Change the `Main` class accordingly
+* Using an Enum, rework the code to clearly instantiate all available species
+* Enjoy how smaller the `main()` function now is and how everything is a lot more clear
 
 
+## 2. Lot of stuff
 
-## 2. Items
-  
-* Pokemons will now be able to use various kinds of items. All items have a name and a price (the price it costs at the pokeshop) and a usage type (either permanent, one use or unusable)  
-	* By default, all items have the following `String` representation: `"name (price pokedollars)"`
-* Sweets are items 
-* Pokeballs also are items. A pokeball has a base efficiency (an integer between 0 and 100) and an efficiency multiplier which depends on its type. 
-	* Simple pokeballs do not exist. A pokeball is always special. 2 types of pokeballs currently exist: `Ultraball` (with a multiplier of 2) and `Greatball` (with a multiplier of 3)  
-	* For all pokeballs, we need to know the real efficiency which is calculated as follows: `base efficiency * multiplier`
+_Some of you might already have done this work during the last session using a List. This is slightly different this time, but you can still reuse part of your work._
 
-
-
-## 3. Inventory and a unique player
-  
-The player now has access to an inventory    
-
-* Create an empty `Inventory` class. Inventory will soon contain the list of all items the player currently have.
-* Create a player class with an `Inventory` attribute. In this game, there will always be only one player. This player should be accessible from anywhere in the application. The player won't change during gameplay.  
-
-
-
-## 4. Lot of stuff
-  
 To implement the inventory, we need the appropriate data structure 
 
-* Take a look at List interface: [https://docs.oracle.com/javase/8/docs/api/java/util/List.html](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)  
-* Take a look at ArrayList class (implementation): [https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)  
-* Add a list of items to the `Inventory` class
-* Within the `main()` method, add some items to the player's inventory 
+* Which data structure would you use ?
+* Add a data structure implementing the [`Set`](https://docs.oracle.com/javase/7/docs/api/java/util/Set.html) interface to `Inventory`
+* Inside `main()`, add some items to the player's inventory
 * Add a `totalPrice()` method to this inventory. It returns the total price of all items contained in the inventory
-* Inside main, once it's filled, display the total price of the inventory
+* Inside `main()`, once it's filled, display the total price of the inventory
 
-> Sidequest: rewrite `Inventory`'s [`toString()`](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--) method to display the list of all item owned
+> Sidequest: rewrite `Inventory`'s [`toString()](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--) method to display the list of all item owned
 
 <!-- -->
-> Sidequest: notice there are other List implementations:[https://docs.oracle.com/javase/tutorial/collections/implementations/list.html](https://docs.oracle.com/javase/tutorial/collections/implementations/list.html)
+> Sidequest: rewrite the `getLevelFromXp()` method inside `Level` class
 
 
+## 3. Lot of stuff (Brand new !)
 
-## (bonus) 5. More action
-  
+* The inventory now has a limited space (10 items). Adding an item to a full inventory fails and the user should be informed of that.
+
+> Sidequest: create a `Pokedex` class that will keep track of all species that the player has met. For each specie, we need to know if the player has encountered it, fought it or never encountered it.
+
+
+## 4. More action
+
+_Some of you might already have done this work during the last session. Feel free to reuse it._
+
 Before writing AIs, we need to add more depth to fights
 
 * Pokemons can now defend. Add a defense score (between 0 and 90). This will be the percentage of damage that will be mitigated on each attack  
-* Write a defend() method that increases the defense score by 10 (up to a maximum of 90)
+* Write a `defend()` method that increases the defense score by 10 (up to a maximum of 90)
 * The logic for damage dealt change slightly. It is now: attacker's strength * (1 - target's defense score / 100). Every attack deals at least 1 damage.  
-* Simulate a fight in which one of the pokemon defends for 3 turns
+* Simulate a fight in which one of the pokemon defends for 3 turns 
 
 
+## 5. Special powers
 
-## (bonus) 6. AI may be the future  
+* We want to add special powers to our pokemons. Special powers are not associated with species (i.e. two pokemons from the same specie could have different special powers). A pokemon could have 0 to several special powers.
+* Special powers are
+	* *strong*: a strong pokemon is able to trigger an earthquake (it displays *Brrr* to the console),
+	* *clever*: a clever pokemon can solve an equation (it displays *x+2=4* to the console),
+	* *beautiful*: a beautiful pokemon can charm other pokemons (it displays *Hey !* to the console).
+* Define a `StrongCleverBulbasaur` class: a `StrongCleverBulbasaur` is a kind of pokemon which `Specie` is Bulbasaur.
+* Define 3 interfaces for various types of special powers.
+* Make `StrongCleverBulbasaur` have the strong and clever special powers. Implement relevant methods.
+* Define `BeautifulCleverCharmander` the same way.
+
+
+## (bonus) 6. AI may be the future
+
+_Some of you might already have done this work during the last session. Feel free to reuse it._
+
 Let's write some very basic AI that will be able to decide the best move each time
 
 * Create an AI implementation wich acts as follow: the "brute" one constantly attacks
@@ -99,7 +102,6 @@ Let's write some very basic AI that will be able to decide the best move each ti
 
 ## Going deeper
  
- 
-* Checkout the code from Olivier Levitt's repository [https://bitbucket.org/olevitt/formations/src/master/poo-java/TPs/TP2/](https://bitbucket.org/olevitt/formations/src/master/poo-java/TPs/TP2/). You will find a correction for current practical session. Copy the `IAGeniale` class and make it fight your own AI. Improve your own AI until it beats `IAGeniale` (which, in reality, is not that *geniale*)
-* Make your AI compete against other AI in the room
-* (Going a whole lot deeper) generate a large amount of data `(state of pokemon1, state of pokemon2, action) => fight's result`. Using deep learning on this data, create an AI. Make it compete with other AIs
+* Checkout the code from Olivier Levitt's repository [https://bitbucket.org/olevitt/formations/src/master/poo-java/TPs/TP2/](https://bitbucket.org/olevitt/formations/src/master/poo-java/TPs/TP2/). You will find a correction of the second practical session (PS2). Copy the `IAGeniale` class and make it fight your own AI. Improve your own AI until it beats `IAGeniale` (which, in reality, is not that *geniale*)
+* Using you new knowledge on arrays, investigate the infamous `String[] args` parameter in `main()` function
+* (Going a whole lot deeper) Generate a large amount of data `(state of pokemon1, state of pokemon2, action) => fight's result`. Using a statistical method of your choice or deep learning on this data, create an AI. Make it compete with other AIs
