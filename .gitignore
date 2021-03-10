@@ -21,3 +21,5 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/guidelines_for_online_practical_session.pdf
+/guidelines_for_practical_session_on_virtual_machine.pdf
